@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наше следующее путешествие ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            background-attachment: fixed;
+            color: #2d2d2d;
+            padding: 20px;
+            text-align: center;
+        }
+        .card {
+            max-width: 700px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 40px 30px 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: 0.3s;
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            color: #fff;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .subtitle {
+            font-size: 1.3rem;
+            color: #fff;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        .date-big {
+            font-size: 4.2rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            margin: 15px 0 20px;
+            letter-spacing: 4px;
+        }
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0 20px;
+        }
+        .timer-item {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+            border-radius: 20px;
+            padding: 15px 10px;
+            min-width: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .timer-item span:first-child {
+            display: block;
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+        }
+        .timer-item span:last-child {
+            display: block;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 4px;
+        }
+        .message {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 14px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .heart {
+            color: #ff6b8a;
+            display: inline-block;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        /* Адаптив */
+        @media (max-width: 480px) {
+            h1 { font-size: 2.2rem; }
+            .date-big { font-size: 3rem; }
+            .timer-item { min-width: 65px; padding: 12px 6px; }
+            .timer-item span:first-child { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🌍 Наше следующее путешествие</h1>
+        <div class="subtitle">С тобой — хоть на край света ❤️</div>
+
+        <div class="date-big">Февраль 2027</div>
+
+        <!-- Таймер до 1 февраля 2027 -->
+        <div class="timer" id="timer">
+            <div class="timer-item">
+                <span id="days">--</span>
+                <span>Дни</span>
+            </div>
+            <div class="timer-item">
+                <span id="hours">--</span>
+                <span>Часы</span>
+            </div>
+            <div class="timer-item">
+                <span id="minutes">--</span>
+                <span>Минуты</span>
+            </div>
+            <div class="timer-item">
+                <span id="seconds">--</span>
+                <span>Секунды</span>
+            </div>
+        </div>
+
+        <div class="message">
+            <span class="heart">❤️</span> Осталось совсем чуть-чуть! <span class="heart">❤️</span>
+        </div>
+    </div>
+
+    <script>
+        // Установите дату вашего путешествия (год, месяц (0-11), день, часы, минуты)
+        // Здесь 1 февраля 2027, 00:00:00
+        const targetDate = new Date(2027, 1, 1, 0, 0, 0).getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('timer').innerHTML = `
+                    <div style="font-size:2rem; color:#fff; width:100%;">
+                        🎉 Путешествие началось! 🎉
+                    </div>
+                `;
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
